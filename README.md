@@ -65,3 +65,48 @@ endmodule
 ```
 Por ultimo se crea un bloque ```always```, donde se realica la operación ```or``` (+) para las entradas del sistema, y se evaluan con respecto a ```st```.
 Entonces, el sumador con descripción de suma tiene una codificación centrada en el procedimiento de la operación, mientras que el sumador con bloques primitivos, toma una codificación que se puede interpretar más facilmente de una forma física.
+
+### Simulación GTKWAVE
+
+Para la simulación se ejecuta un "testbench" en el programa Visual Studio Code, con el siguiente código:
+
+```verilog
+module sum1bcc_primitive_TB;
+
+  reg x;
+  reg y;
+  reg c;
+  wire out;
+  wire z;
+
+
+sum1bcc_primitive uut(x, y, c,out,z);
+
+
+initial begin
+x=0; y=0; c=0; #3;
+x=0; y=0; c=1; #3;
+x=0; y=1; c=0; #3;
+x=0; y=1; c=1; #3;
+x=1; y=0; c=0; #3;
+x=1; y=0; c=1; #3;
+x=1; y=1; c=0; #3;
+x=1; y=1; c=1; #3;
+
+
+
+end
+
+initial begin: TEST_CASE
+     $dumpfile("sum1bcc_primitive_TB.vcd");
+     $dumpvars(-1, uut);
+     #(200) $finish;
+   end
+
+endmodule
+```
+
+Por último se ejecuta el comando de GTKWave en el terminal para obtener la visualización de la simulación.
+
+![image](https://github.com/user-attachments/assets/84fec63b-dbb3-4864-b82c-66631e9783de)
+
